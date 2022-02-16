@@ -16,3 +16,8 @@ enum CellType: String {
     case Gender = "Sexo"
     case Color = "Color favorito"
 }
+
+protocol CustomCellDelegate {
+    var selectedCells: [CellType] {get set}
+    func switchTrackingOf(cellType: CellType)
+}

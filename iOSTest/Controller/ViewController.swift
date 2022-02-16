@@ -7,9 +7,10 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource {
+class ViewController: UIViewController, UITableViewDataSource, CustomCellDelegate {
     
     var tableValues = [CellType.Camera, CellType.Photo, CellType.Name, CellType.Phone, CellType.Birth, CellType.Gender, CellType.Color]
+    var selectedCells = [CellType]()
     
     let tableView: UITableView = {
         let tableView = UITableView()
@@ -33,12 +34,30 @@ class ViewController: UIViewController, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? CustomCell else {return UITableViewCell()}
         cell.configureCell(cellType: tableValues[indexPath.row])
+        cell.delegate = self
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableValues.count
     }
+    
+    func switchTrackingOf(cellType: CellType) {
+        if selectedCells.isEmpty {
+            selectedCells.append(cellType)
+            print(selectedCells)
+            return
+        }
+        
+        if selectedCells.contains(cellType) {
+            guard let index = selectedCells.firstIndex(of: cellType) else { return }
+            selectedCells.remove(at: index)
+        } else {
+            selectedCells.append(cellType)
+        }
+        print(selectedCells)
+    }
+    
 
 }
 
