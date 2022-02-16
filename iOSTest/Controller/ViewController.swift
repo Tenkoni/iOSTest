@@ -17,18 +17,40 @@ class ViewController: UIViewController, UITableViewDataSource, CustomCellDelegat
         tableView.register(CustomCell.self, forCellReuseIdentifier: "cell")
         return tableView
     }()
+    let nextButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Siguiente", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        button.addTarget(self, action: #selector(nextPage), for: .touchUpInside)
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
         title = "Data form"
+        view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
         view.addSubview(tableView)
+        view.addSubview(nextButton)
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        tableView.frame = view.frame
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        //configuring the layout, this way we will have a table and botton on the same view, allowing compression between table bottom and button
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        nextButton.translatesAutoresizingMaskIntoConstraints = false
+        nextButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        nextButton.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        nextButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
+        nextButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        let tableBottomConst = tableView.bottomAnchor.constraint(equalTo: nextButton.topAnchor)
+        tableBottomConst.priority = UILayoutPriority(999)
+        tableBottomConst.isActive = true
+    
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -45,7 +67,6 @@ class ViewController: UIViewController, UITableViewDataSource, CustomCellDelegat
     func switchTrackingOf(cellType: CellType) {
         if selectedCells.isEmpty {
             selectedCells.append(cellType)
-            print(selectedCells)
             return
         }
         
@@ -55,7 +76,19 @@ class ViewController: UIViewController, UITableViewDataSource, CustomCellDelegat
         } else {
             selectedCells.append(cellType)
         }
-        print(selectedCells)
+    }
+    
+    @objc func nextPage(_ sender: UIButton) {
+        
+        //Alert in case the user didn't select anything
+        if selectedCells.isEmpty {
+            let ac = UIAlertController(title: "No selected options!", message: "Please, select at least one option before continuing.", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "Okay", style: .default))
+            present(ac, animated: true)
+        }
+        //logic for moving to the next View, needs a basic implementation first at least before including this logic
+        //the basic implementation should pass the selected cells to the new view, so the new view can format a table
+        //according to the options of the user.
     }
     
 
