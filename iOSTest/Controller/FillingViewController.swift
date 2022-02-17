@@ -19,6 +19,7 @@ class FillingViewController: UIViewController, UITableViewDataSource, UITableVie
         tableView.register(CameraCell.self, forCellReuseIdentifier: CellType.Camera.rawValue)
         tableView.register(PictureCell.self, forCellReuseIdentifier: CellType.Photo.rawValue)
         tableView.register(NameCell.self, forCellReuseIdentifier: CellType.Name.rawValue)
+        tableView.register(NumberCell.self, forCellReuseIdentifier: CellType.Phone.rawValue)
         return tableView
     }()
     
@@ -57,6 +58,9 @@ class FillingViewController: UIViewController, UITableViewDataSource, UITableVie
             return cell
         case CellType.Name:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: CellType.Name.rawValue) as? NameCell else { fatalError("Unable to dequeue cell.") }
+            return cell
+        case CellType.Phone:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: CellType.Phone.rawValue) as? NumberCell else { fatalError("Unable to dequeue cell.") }
             return cell
         default:
             return UITableViewCell()

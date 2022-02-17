@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		AB012BAD27BDDFBF004FA199 /* PictureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB012BAC27BDDFBF004FA199 /* PictureCell.swift */; };
 		AB012BAF27BDF3FB004FA199 /* NameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB012BAE27BDF3FB004FA199 /* NameCell.swift */; };
+		AB012BB127BE2313004FA199 /* NumberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB012BB027BE2313004FA199 /* NumberCell.swift */; };
 		AB7CB0E827BC63FB000C0586 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7CB0E727BC63FB000C0586 /* AppDelegate.swift */; };
 		AB7CB0EA27BC63FB000C0586 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7CB0E927BC63FB000C0586 /* SceneDelegate.swift */; };
 		AB7CB0EC27BC63FB000C0586 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7CB0EB27BC63FB000C0586 /* ViewController.swift */; };
@@ -24,6 +25,7 @@
 /* Begin PBXFileReference section */
 		AB012BAC27BDDFBF004FA199 /* PictureCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureCell.swift; sourceTree = "<group>"; };
 		AB012BAE27BDF3FB004FA199 /* NameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameCell.swift; sourceTree = "<group>"; };
+		AB012BB027BE2313004FA199 /* NumberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberCell.swift; sourceTree = "<group>"; };
 		AB7CB0E427BC63FB000C0586 /* iOSTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB7CB0E727BC63FB000C0586 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AB7CB0E927BC63FB000C0586 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 				AB925C5527BDAD8B00573FFC /* CameraCell.swift */,
 				AB012BAC27BDDFBF004FA199 /* PictureCell.swift */,
 				AB012BAE27BDF3FB004FA199 /* NameCell.swift */,
+				AB012BB027BE2313004FA199 /* NumberCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -184,6 +187,7 @@
 				AB012BAD27BDDFBF004FA199 /* PictureCell.swift in Sources */,
 				AB7CB0EC27BC63FB000C0586 /* ViewController.swift in Sources */,
 				AB925C5627BDAD8B00573FFC /* CameraCell.swift in Sources */,
+				AB012BB127BE2313004FA199 /* NumberCell.swift in Sources */,
 				AB98CF9827BC99BF0078E0FF /* Utility.swift in Sources */,
 				AB925C5427BD985300573FFC /* FillingViewController.swift in Sources */,
 				AB98CF9527BC97AA0078E0FF /* CustomCell.swift in Sources */,
