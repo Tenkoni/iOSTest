@@ -7,11 +7,12 @@
 
 import UIKit
 
-class FillingViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class FillingViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, GenderCellDelegate {
     
     var optionsList: [CellType]!
     //keeping track of the currently selected cell
     var curretCellIndex: IndexPath!
+    var genderTracker: [CellType:IndexPath]!
     
     let tableView: UITableView = {
         let tableView = UITableView()
@@ -21,13 +22,20 @@ class FillingViewController: UIViewController, UITableViewDataSource, UITableVie
         tableView.register(NameCell.self, forCellReuseIdentifier: CellType.Name.rawValue)
         tableView.register(NumberCell.self, forCellReuseIdentifier: CellType.Phone.rawValue)
         tableView.register(DateCell.self, forCellReuseIdentifier: CellType.Birth.rawValue)
+        tableView.register(GenderCell.self, forCellReuseIdentifier: CellType.Gender.rawValue)
+
         return tableView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Add your information"
-        
+        genderTracker = [CellType:IndexPath]()
+        //preparing the datacells, here we change the gender option for specific male and female options
+        if let index = optionsList.firstIndex(of: CellType.Gender) {
+            optionsList.replaceSubrange(index..<index+1, with: [CellType.Female, CellType.Male])
+        }
+        //start listening to the notification center to detect the keyboard poping on screen, so we can adapt the content being displayed
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(adjustKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(adjustKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
@@ -69,6 +77,19 @@ class FillingViewController: UIViewController, UITableViewDataSource, UITableVie
             
         case CellType.Birth:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: CellType.Birth.rawValue) as? DateCell else { fatalError("Unable to dequeue cell.") }
+            return cell
+            
+        case CellType.Female:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: CellType.Gender.rawValue) as? GenderCell else { fatalError("Unable to dequeue cell.") }
+            cell.delegate = self
+            cell.configureCell(gender: CellType.Female)
+            genderTracker[CellType.Female] = indexPath
+            return cell
+        case CellType.Male:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: CellType.Gender.rawValue) as? GenderCell else { fatalError("Unable to dequeue cell.") }
+            cell.delegate = self
+            cell.configureCell(gender: CellType.Male)
+            genderTracker[CellType.Male] = indexPath
             return cell
             
         default:
@@ -113,6 +134,7 @@ class FillingViewController: UIViewController, UITableViewDataSource, UITableVie
         cell.setImage(image)
     }
     
+    //async fetching of an image given a string representing the url
     func fetchImageFrom(url: String, for cell: PictureCell){
         guard let url = URL(string: url) else { return }
         DispatchQueue.global(qos: .userInitiated).async { [weak cell] in
@@ -126,6 +148,7 @@ class FillingViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
+    //this method is called when the notification of the keyboard changing state is detected, it will allow us to always keep the cell being edited above the keyboard.
     @objc func adjustKeyboard(notification: Notification) {
         //getting the keyboard object, included in the notification
         guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey]  as? NSValue else { return }
@@ -140,6 +163,17 @@ class FillingViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         
         tableView.scrollIndicatorInsets = tableView.contentInset
+        
+    }
+    
+    func switchGenderActive(to gender: CellType) {
+        if gender == CellType.Male {
+            guard let cell = tableView.cellForRow(at: genderTracker[CellType.Female]!) as? GenderCell else { return }
+            cell.turnOffButton()
+        } else {
+            guard let cell = tableView.cellForRow(at: genderTracker[CellType.Male]!) as? GenderCell else { return }
+            cell.turnOffButton()
+        }
         
     }
     
