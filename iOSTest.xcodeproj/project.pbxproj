@@ -18,6 +18,7 @@
 		AB7CB0EF27BC63FB000C0586 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB7CB0ED27BC63FB000C0586 /* Main.storyboard */; };
 		AB7CB0F127BC63FC000C0586 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB7CB0F027BC63FC000C0586 /* Assets.xcassets */; };
 		AB7CB0F427BC63FC000C0586 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB7CB0F227BC63FC000C0586 /* LaunchScreen.storyboard */; };
+		AB8BC1C127BEAAA800490F04 /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8BC1C027BEAAA800490F04 /* ColorCell.swift */; };
 		AB925C5427BD985300573FFC /* FillingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB925C5327BD985300573FFC /* FillingViewController.swift */; };
 		AB925C5627BDAD8B00573FFC /* CameraCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB925C5527BDAD8B00573FFC /* CameraCell.swift */; };
 		AB98CF9527BC97AA0078E0FF /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB98CF9427BC97AA0078E0FF /* CustomCell.swift */; };
@@ -38,6 +39,7 @@
 		AB7CB0F027BC63FC000C0586 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AB7CB0F327BC63FC000C0586 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AB7CB0F527BC63FC000C0586 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AB8BC1C027BEAAA800490F04 /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
 		AB925C5327BD985300573FFC /* FillingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillingViewController.swift; sourceTree = "<group>"; };
 		AB925C5527BDAD8B00573FFC /* CameraCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCell.swift; sourceTree = "<group>"; };
 		AB98CF9427BC97AA0078E0FF /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 				AB012BB027BE2313004FA199 /* NumberCell.swift */,
 				AB012BB227BE2B58004FA199 /* DateCell.swift */,
 				AB012BB427BE3822004FA199 /* GenderCell.swift */,
+				AB8BC1C027BEAAA800490F04 /* ColorCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -200,6 +203,7 @@
 				AB925C5427BD985300573FFC /* FillingViewController.swift in Sources */,
 				AB98CF9527BC97AA0078E0FF /* CustomCell.swift in Sources */,
 				AB7CB0E827BC63FB000C0586 /* AppDelegate.swift in Sources */,
+				AB8BC1C127BEAAA800490F04 /* ColorCell.swift in Sources */,
 				AB7CB0EA27BC63FB000C0586 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

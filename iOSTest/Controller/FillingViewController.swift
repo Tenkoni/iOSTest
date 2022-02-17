@@ -13,6 +13,9 @@ class FillingViewController: UIViewController, UITableViewDataSource, UITableVie
     //keeping track of the currently selected cell
     var curretCellIndex: IndexPath!
     var genderTracker: [CellType:IndexPath]!
+    var colorCell = [CellColors.Green, CellColors.Yellow, CellColors.Orange, CellColors.Red, CellColors.Purple, CellColors.Blue]
+    var sections: Int!
+    var rowsForSection: [SectionStruct]!
     
     let tableView: UITableView = {
         let tableView = UITableView()
@@ -23,6 +26,7 @@ class FillingViewController: UIViewController, UITableViewDataSource, UITableVie
         tableView.register(NumberCell.self, forCellReuseIdentifier: CellType.Phone.rawValue)
         tableView.register(DateCell.self, forCellReuseIdentifier: CellType.Birth.rawValue)
         tableView.register(GenderCell.self, forCellReuseIdentifier: CellType.Gender.rawValue)
+        tableView.register(ColorCell.self, forCellReuseIdentifier: CellType.Color.rawValue)
 
         return tableView
     }()
@@ -30,11 +34,31 @@ class FillingViewController: UIViewController, UITableViewDataSource, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Add your information"
+        //we will know how many sections do we have given the number of selections on the first table
+        sections = optionsList.count
+        //sorting array to always have the same element order
+        optionsList.sort{$0<$1}
+        rowsForSection = [SectionStruct]()
+        //calculating the number of elements for each section
+        for element in optionsList {
+            if element == .Gender {
+                rowsForSection.append(SectionStruct(section: 2, cellType: .Gender))
+            } else if element == .Color {
+                rowsForSection.append(SectionStruct(section: colorCell.count - 1, cellType: .Color))
+            } else {
+                rowsForSection.append(SectionStruct(section: 1, cellType: element))
+            }
+        }
         genderTracker = [CellType:IndexPath]()
         //preparing the datacells, here we change the gender option for specific male and female options
         if let index = optionsList.firstIndex(of: CellType.Gender) {
             optionsList.replaceSubrange(index..<index+1, with: [CellType.Female, CellType.Male])
         }
+        //preparing the datacells for colors
+        if let index = optionsList.firstIndex(of: CellType.Color) {
+            optionsList.replaceSubrange(index..<index+1, with: [CellType.Color, CellType.Color,CellType.Color,CellType.Color,CellType.Color])
+        }
+
         //start listening to the notification center to detect the keyboard poping on screen, so we can adapt the content being displayed
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(adjustKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -54,9 +78,15 @@ class FillingViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        //generating an index relative to the whole table, not only sections
+        var row = indexPath.row
+        for i in 0..<indexPath.section{
+            row += self.tableView.numberOfRows(inSection: i)
+        }
+        
         //we display an specific cell class according to the parameters supplied
         //on the first view's table. Using the enumerator to identify them
-        switch optionsList[indexPath.row] {
+        switch optionsList[row] {
         case CellType.Camera:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: CellType.Camera.rawValue) as? CameraCell else { fatalError("Unable to dequeue cell.") }
             return cell
@@ -91,6 +121,11 @@ class FillingViewController: UIViewController, UITableViewDataSource, UITableVie
             cell.configureCell(gender: CellType.Male)
             genderTracker[CellType.Male] = indexPath
             return cell
+        
+        case CellType.Color:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: CellType.Color.rawValue) as? ColorCell else { fatalError("Unable to dequeue cell.") }
+            cell.configureCell(color: colorCell[indexPath.row])
+            return cell
             
         default:
             return UITableViewCell()
@@ -100,11 +135,12 @@ class FillingViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return optionsList.count
+        //as the number of rows for section are different we need a way to get the needed rows for each section
+        return rowsForSection[section].section
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if optionsList[indexPath.row] == CellType.Camera {
+        if optionsList[indexPath.section] == CellType.Camera {
             //in case the camera cell is selected, we are going to open an imagepicker to
             //allow the camera and gallery usage
             curretCellIndex = indexPath
@@ -117,14 +153,42 @@ class FillingViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if optionsList[indexPath.row] == CellType.Camera {
+        if optionsList[indexPath.section] == CellType.Camera {
             return 200
-        } else if optionsList[indexPath.row] == CellType.Photo {
+        } else if optionsList[indexPath.section] == CellType.Photo {
             return 400
         }
         return tableView.rowHeight
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return sections
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let sectionHeader: String
+        let sectionInfo = rowsForSection[section]
+        //giving a name to all the sections
+        switch sectionInfo.cellType {
+            case .Name:
+                sectionHeader = "Nombre completo"
+            case .Camera:
+                sectionHeader = "Cámara"
+            case .Photo:
+                sectionHeader = "Foto"
+            case .Phone:
+                sectionHeader = "Número telefónico"
+            case .Gender:
+                sectionHeader = "Sexo"
+            case .Color:
+                sectionHeader = "Color favorito"
+            case .Birth:
+                sectionHeader = "Fecha de nacimiento"
+            default:
+                sectionHeader = ""
+        }
+        return sectionHeader
+    }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true)
@@ -167,14 +231,14 @@ class FillingViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func switchGenderActive(to gender: CellType) {
+        //manages the switching between gender picks, deactivating the other when receiving a click notification throught the delegate
         if gender == CellType.Male {
             guard let cell = tableView.cellForRow(at: genderTracker[CellType.Female]!) as? GenderCell else { return }
             cell.turnOffButton()
-        } else {
+        } else if gender == CellType.Female {
             guard let cell = tableView.cellForRow(at: genderTracker[CellType.Male]!) as? GenderCell else { return }
             cell.turnOffButton()
         }
-        
     }
     
 }

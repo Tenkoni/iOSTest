@@ -87,7 +87,6 @@ class ViewController: UIViewController, UITableViewDataSource, CustomCellDelegat
         //logic for moving to the next View, needs a basic implementation first at least before including this logic
         //the basic implementation should pass the selected cells to the new view, so the new view can format a table
         //according to the options of the user.
-            print(selectedCells)
             let nextView = FillingViewController()
             nextView.optionsList = selectedCells
             self.navigationController?.pushViewController(nextView, animated: true)

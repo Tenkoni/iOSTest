@@ -13,7 +13,7 @@ class NameCell: UITableViewCell, UITextFieldDelegate {
     
     private let textBox: UITextField = {
         let textBox = UITextField()
-        textBox.placeholder = "Nombre Completo"
+        textBox.placeholder = "Inserta tu nombre"
         return textBox
         
     }()

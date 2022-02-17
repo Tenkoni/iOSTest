@@ -13,7 +13,7 @@ class DateCell: UITableViewCell {
     
     private let textBox: UITextField = {
         let textBox = UITextField()
-        textBox.placeholder = "Fecha de Nacimiento"
+        textBox.placeholder = "Inserta tu fecha de nacimiento"
         return textBox
     }()
     

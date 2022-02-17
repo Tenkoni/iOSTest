@@ -14,7 +14,7 @@ class NumberCell: UITableViewCell, UITextFieldDelegate {
     
     private let textBox: UITextField = {
         let textBox = UITextField()
-        textBox.placeholder = "Número telefónico"
+        textBox.placeholder = "Inserta tu número"
         return textBox
         
     }()
