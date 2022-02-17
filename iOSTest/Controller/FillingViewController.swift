@@ -20,6 +20,7 @@ class FillingViewController: UIViewController, UITableViewDataSource, UITableVie
         tableView.register(PictureCell.self, forCellReuseIdentifier: CellType.Photo.rawValue)
         tableView.register(NameCell.self, forCellReuseIdentifier: CellType.Name.rawValue)
         tableView.register(NumberCell.self, forCellReuseIdentifier: CellType.Phone.rawValue)
+        tableView.register(DateCell.self, forCellReuseIdentifier: CellType.Birth.rawValue)
         return tableView
     }()
     
@@ -51,17 +52,25 @@ class FillingViewController: UIViewController, UITableViewDataSource, UITableVie
         case CellType.Camera:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: CellType.Camera.rawValue) as? CameraCell else { fatalError("Unable to dequeue cell.") }
             return cell
+            
         case CellType.Photo:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: CellType.Photo.rawValue) as? PictureCell else { fatalError("Unable to dequeue cell.") }
             //fetching an image (async), as required
             fetchImageFrom(url: "https://http2.mlstatic.com/vegeta-tamano-real-para-armar-en-papercraft-D_NQNP_892880-MLA26232224460_102017-F.jpg", for: cell)
             return cell
+            
         case CellType.Name:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: CellType.Name.rawValue) as? NameCell else { fatalError("Unable to dequeue cell.") }
             return cell
+            
         case CellType.Phone:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: CellType.Phone.rawValue) as? NumberCell else { fatalError("Unable to dequeue cell.") }
             return cell
+            
+        case CellType.Birth:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: CellType.Birth.rawValue) as? DateCell else { fatalError("Unable to dequeue cell.") }
+            return cell
+            
         default:
             return UITableViewCell()
         }
