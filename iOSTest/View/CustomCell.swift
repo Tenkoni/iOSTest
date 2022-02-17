@@ -44,8 +44,8 @@ class CustomCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         //the layout for the cell internal components, using the cell as reference to keep it working properly after resizing or such.
-        let boxWidth = contentView.frame.height - 22
-        labelText.frame = CGRect(x: 20, y: 0, width: contentView.frame.width - 50 - boxWidth, height: contentView.frame.height)
+        let boxWidth = contentView.frame.height
+        labelText.frame = CGRect(x: 20, y: 0, width: contentView.frame.width - 50 - boxWidth+15, height: contentView.frame.height)
         selectedBox.frame = CGRect(x: 10 + labelText.frame.width , y: contentView.frame.midY - boxWidth/2, width: boxWidth, height: boxWidth)
         
     }

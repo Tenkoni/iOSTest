@@ -13,8 +13,11 @@ class FillingViewController: UIViewController, UITableViewDataSource, UITableVie
     //keeping track of the currently selected cell
     var curretCellIndex: IndexPath!
     var genderTracker: [CellType:IndexPath]!
+    //color we want
     var colorCell = [CellColors.Green, CellColors.Yellow, CellColors.Orange, CellColors.Red, CellColors.Purple, CellColors.Blue]
+    //sections number
     var sections: Int!
+    //tracking the sections
     var rowsForSection: [SectionStruct]!
     
     let tableView: UITableView = {
@@ -33,7 +36,8 @@ class FillingViewController: UIViewController, UITableViewDataSource, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Add your information"
+        title = "Agrega tu información"
+        view.backgroundColor = .systemBackground
         //we will know how many sections do we have given the number of selections on the first table
         sections = optionsList.count
         //sorting array to always have the same element order
@@ -44,7 +48,7 @@ class FillingViewController: UIViewController, UITableViewDataSource, UITableVie
             if element == .Gender {
                 rowsForSection.append(SectionStruct(section: 2, cellType: .Gender))
             } else if element == .Color {
-                rowsForSection.append(SectionStruct(section: colorCell.count - 1, cellType: .Color))
+                rowsForSection.append(SectionStruct(section: colorCell.count, cellType: .Color))
             } else {
                 rowsForSection.append(SectionStruct(section: 1, cellType: element))
             }
@@ -55,8 +59,12 @@ class FillingViewController: UIViewController, UITableViewDataSource, UITableVie
             optionsList.replaceSubrange(index..<index+1, with: [CellType.Female, CellType.Male])
         }
         //preparing the datacells for colors
+        var colorSubarray = [CellType]()
+        for _ in colorCell {
+            colorSubarray.append(CellType.Color)
+        }
         if let index = optionsList.firstIndex(of: CellType.Color) {
-            optionsList.replaceSubrange(index..<index+1, with: [CellType.Color, CellType.Color,CellType.Color,CellType.Color,CellType.Color])
+            optionsList.replaceSubrange(index..<index+1, with: colorSubarray)
         }
 
         //start listening to the notification center to detect the keyboard poping on screen, so we can adapt the content being displayed
@@ -74,7 +82,11 @@ class FillingViewController: UIViewController, UITableViewDataSource, UITableVie
     override func viewWillLayoutSubviews() {
         //currently the tableview takes all the view area, will change
         //later to only use the safe guide layout
-        tableView.frame = view.bounds
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
