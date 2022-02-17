@@ -28,7 +28,7 @@ class ViewController: UIViewController, UITableViewDataSource, CustomCellDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
-        title = "Data form"
+        title = "Datos personales"
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
         view.addSubview(tableView)
@@ -69,7 +69,6 @@ class ViewController: UIViewController, UITableViewDataSource, CustomCellDelegat
             selectedCells.append(cellType)
             return
         }
-        
         if selectedCells.contains(cellType) {
             guard let index = selectedCells.firstIndex(of: cellType) else { return }
             selectedCells.remove(at: index)
@@ -79,16 +78,21 @@ class ViewController: UIViewController, UITableViewDataSource, CustomCellDelegat
     }
     
     @objc func nextPage(_ sender: UIButton) {
-        
         //Alert in case the user didn't select anything
         if selectedCells.isEmpty {
             let ac = UIAlertController(title: "No selected options!", message: "Please, select at least one option before continuing.", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "Okay", style: .default))
             present(ac, animated: true)
-        }
+        } else {
         //logic for moving to the next View, needs a basic implementation first at least before including this logic
         //the basic implementation should pass the selected cells to the new view, so the new view can format a table
         //according to the options of the user.
+            print(selectedCells)
+            let nextView = FillingViewController()
+            nextView.optionsList = selectedCells
+            self.navigationController?.pushViewController(nextView, animated: true)
+        }
+        
     }
     
 
